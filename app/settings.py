@@ -42,8 +42,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'django_extensions',
+    'mail_templated',
+    'anymail',
 
     'models',
+    'emails',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -131,8 +134,13 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-EMAIL_BACKEND = 'anymail.backends.mailgun.MailgunBackend'
-DEFAULT_FROM_EMAIL = 'no-reply@ryfter.com'
-
 BASE_DOMAIN = os.getenv('BASE_DOMAIN')
 
+EMAIL_BACKEND = 'anymail.backends.mailgun.MailgunBackend'
+MAILGUN_SENDER_DOMAIN = os.getenv('MAILGUN_SENDER_DOMAIN')
+DEFAULT_FROM_EMAIL = 'no-reply@trustcircle.xyz'
+
+ANYMAIL = {
+    "MAILGUN_API_KEY": os.getenv('MAILGUN_API_KEY'),
+    "MAILGUN_SENDER_DOMAIN": MAILGUN_SENDER_DOMAIN,
+}
