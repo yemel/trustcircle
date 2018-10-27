@@ -75,6 +75,14 @@ class Issue(models.Model):
     def noreply_email(self):
         return '%s <noreply@go.trustcircle.xyz>' % self.circle.name
 
+    def get_request_html(self):
+        m = re.match('.*<body>(.*)</body>.*', self.request_html or '')
+        return m and m.group(1)
+
+    def get_digest_html(self):
+        m = re.match('.*<body>(.*)</body>.*', self.digest_html or '')
+        return m and m.group(1)
+
     @staticmethod
     def find(sender, recipient):
         match = re.match('(call|digest)\+(.*)@go\.trustcircle\.xyz', recipient)

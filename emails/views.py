@@ -88,4 +88,4 @@ def send_digest_check(issue):
 
 def send_digest(issue):
     recipients = issue.circle.membership_set.values_list('user__email', flat=True)
-    send_email('digest.tpl', {'issue': issue}, issue.noreply_email(), recipients)
+    send_email('digest_publish.tpl', {'issue': issue}, issue.noreply_email(), recipients)
