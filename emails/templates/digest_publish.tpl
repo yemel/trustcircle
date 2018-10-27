@@ -1,13 +1,13 @@
 {% extends "mail_templated/base.tpl" %}
 
 {% block subject %}
-[Check] Call for updates: {{ issue }}
+{{ issue }}
 {% endblock %}
 
 {% block body %}
-Hey, please write the call for updates below.
+{{ issue.digest_text }}
 {% endblock %}
 
 {% block html %}
-Hey, please write the call for updates below.
+{{ issue.get_digest_html|safe }}
 {% endblock %}
