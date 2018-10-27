@@ -1,7 +1,7 @@
 {% extends "mail_templated/base.tpl" %}
 
 {% block subject %}
-Call for updates: {{ issue }}
+Call for updates: {{ message.issue }}
 {% endblock %}
 
 {% block body %}
@@ -13,7 +13,7 @@ Got it, I'm going to send this update:
 
 {% block html %}
 I'm going to send this update:<br/>
------<br/><br/>
+<hr style="margin-bottom:1rem;"/>
 
 {{ message.get_html|safe }}
 {% endblock %}

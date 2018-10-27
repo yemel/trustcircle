@@ -12,8 +12,8 @@ Got it, I'm going to send this call for updates:
 {% endblock %}
 
 {% block html %}
-Got it, I'm going to send this call for updates:<br/>
------<br/><br/>
+Got it, I'm going to send this call for updates:
+<hr style="margin-bottom:1rem;"/>
 
 {{ issue.get_request_html|safe }}
 {% endblock %}

@@ -77,11 +77,11 @@ class Issue(models.Model):
 
     def get_request_html(self):
         m = re.match('.*<body>(.*)</body>.*', self.request_html or '')
-        return m and m.group(1)
+        return m and m.group(1) or self.request_html
 
     def get_digest_html(self):
         m = re.match('.*<body>(.*)</body>.*', self.digest_html or '')
-        return m and m.group(1)
+        return m and m.group(1) or self.digest_html
 
     @staticmethod
     def find(sender, recipient):

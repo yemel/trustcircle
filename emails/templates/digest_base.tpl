@@ -14,11 +14,10 @@
 {% endblock %}
 
 {% block html %}
-
     {% for message in messages %}
     <b>{{ message.user.get_full_name }}</b><br/><br/>
 
     {{ message.get_html|safe }}
-    <br/><br/><br/>
+    <br/><br/>
     {% endfor %}
 {% endblock %}

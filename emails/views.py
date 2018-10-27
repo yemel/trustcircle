@@ -1,8 +1,16 @@
+
 from models.models import Message, Issue
 from mail_templated import EmailMessage
 
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
+
+
+def get_message_id(headers):
+    import json
+    headers = json.loads(headers)
+    header = filter(lambda x: x[0] == 'Message-Id', headers)
+    return header and header[0][1] or ''
 
 
 @csrf_exempt
@@ -19,9 +27,11 @@ def inbox(request):
 
     stripped_html = request.POST.get('stripped-html')
     stripped_text = request.POST.get('stripped-text')
+    message_id = get_message_id(request.POST.get('message-headers'))
 
     print 'News Message'
     print request.POST.get('stripped-html')
+    print request.POST.get('message-headers')
 
     issue = Issue.find(sender, recipient)
     message = Message.find(sender, recipient)
@@ -33,7 +43,7 @@ def inbox(request):
         issue.request_text = stripped_text
         issue.save()
 
-        send_email('request_ok.tpl', {'issue': issue}, issue.request_inbox(), sender)
+        send_email('request_ok.tpl', {'issue': issue}, issue.request_inbox(), sender, thread=message_id)
 
     elif issue and recipient in issue.digest_inbox():
         # TODO: Validate State.
@@ -42,21 +52,24 @@ def inbox(request):
         issue.digest_text = stripped_text
         issue.save()
 
-        send_email('digest_ok.tpl', {'issue': issue}, message.issue.digest_inbox(), sender)
+        send_email('digest_ok.tpl', {'issue': issue}, issue.digest_inbox(), sender, thread=message_id)
 
     elif message:
+        # TODO: Validate State.
+
         message.data_html = stripped_html
         message.data_text = stripped_text
         message.save()
 
-        send_email('update_ok.tpl', {'message': message}, message.issue.update_inbox(), sender)
+        send_email('update_ok.tpl', {'message': message}, message.issue.update_inbox(), sender, thread=message_id)
 
     return HttpResponse('Thanks')
 
 
-def send_email(template, context, from_email, to):
+def send_email(template, context, from_email, to, thread=None):
     to = [to] if isinstance(to, basestring) else to
-    msg = EmailMessage(template, context, from_email=from_email, to=to)
+    headers = thread and {'In-Reply-To': thread} or {}
+    msg = EmailMessage(template, context, from_email=from_email, to=to, headers=headers)
     msg.send()
     print 'sending email: %s -> %s' % (from_email, to)
 
@@ -79,11 +92,11 @@ def send_digest_check(issue):
         msg = EmailMessage('digest_base.tpl', context)
         msg.render()
 
-        issue.digest_text = msg.text
-        issue.digest_html = msg.html
+        issue.digest_text = msg.body
+        issue.digest_html = msg.alternatives[0][0]
         issue.save()
 
-    send_email('digest_ok.tpl', context, issue.digest_inbox(), issue.circle.owner.email)
+    send_email('digest_ok.tpl', {'issue': issue}, issue.digest_inbox(), issue.circle.owner.email)
 
 
 def send_digest(issue):
