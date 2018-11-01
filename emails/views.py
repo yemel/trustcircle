@@ -29,9 +29,19 @@ def inbox(request):
     stripped_text = request.POST.get('stripped-text')
     message_id = get_message_id(request.POST.get('message-headers'))
 
-    print 'News Message'
+    print '========== STRIPPED-TEXT ================='
+    print ''
+    print request.POST.get('stripped-text')
+    print ''
+    print '========== STRIPPED-HTML ================='
+    print ''
     print request.POST.get('stripped-html')
-    print request.POST.get('message-headers')
+    print ''
+    print '========== BODY-HTML ================='
+    print ''
+    print request.POST.get('body-html')
+    print ''
+
 
     issue = Issue.find(sender, recipient)
     message = Message.find(sender, recipient)
@@ -83,6 +93,12 @@ def send_update(issue):
     for member in members:
         Message.objects.get_or_create(user=member.user, issue=issue)
         send_email('update.tpl', {'issue': issue}, issue.update_inbox(), member.user.email)
+
+
+def send_followup(issue):
+    messages = issue.message_set.filter(data_text__isnull=True)
+    for message in messages:
+        send_email('followup.tpl', {'issue': issue}, issue.update_inbox(), message.user.email)
 
 
 def send_digest_check(issue):

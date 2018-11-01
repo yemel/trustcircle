@@ -1,4 +1,5 @@
 {% extends "mail_templated/base.tpl" %}
+{% load markup_tags %}
 
 {% block subject %}
 [Check] Call for updates: {{ issue }}

@@ -1,4 +1,5 @@
 {% extends "mail_templated/base.tpl" %}
+{% load markup_tags %}
 
 {% block subject %}
 Call for updates: {{ issue }}
@@ -9,5 +10,5 @@ Call for updates: {{ issue }}
 {% endblock %}
 
 {% block html %}
-{{ issue.get_request_html|safe }}
+{{ issue.request_text|apply_markup:"markdown" }}
 {% endblock %}

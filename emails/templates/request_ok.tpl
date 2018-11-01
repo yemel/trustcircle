@@ -1,4 +1,5 @@
 {% extends "mail_templated/base.tpl" %}
+{% load markup_tags %}
 
 {% block subject %}
 [Check] Call for updates: {{ issue }}
@@ -12,8 +13,8 @@ Got it, I'm going to send this call for updates:
 {% endblock %}
 
 {% block html %}
-Got it, I'm going to send this call for updates:
+Got it, I'm going to send this call for updates:<br/>
 <hr style="margin-bottom:1rem;"/>
 
-{{ issue.get_request_html|safe }}
+{{ issue.request_text|apply_markup:"markdown" }}
 {% endblock %}

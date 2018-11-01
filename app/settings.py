@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'randomslugfield',
     'mail_templated',
     'anymail',
+    'django_markup',
 
     'models',
     'emails',

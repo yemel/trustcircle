@@ -1,4 +1,5 @@
 {% extends "mail_templated/base.tpl" %}
+{% load markup_tags %}
 
 {% block subject %}
 {{ issue }}
@@ -9,5 +10,5 @@
 {% endblock %}
 
 {% block html %}
-{{ issue.get_digest_html|safe }}
+{{ issue.digest_text|apply_markup:"markdown" }}
 {% endblock %}

@@ -1,4 +1,5 @@
 {% extends "mail_templated/base.tpl" %}
+{% load markup_tags %}
 
 {% block subject %}
 [Check] {{ issue }}
@@ -15,5 +16,5 @@ I'm going to send this digest:
 I'm going to send this digest:<br/>
 <hr style="margin-bottom:1rem;"/>
 
-{{ issue.get_digest_html|safe }}
+{{ issue.digest_text|apply_markup:"markdown" }}
 {% endblock %}

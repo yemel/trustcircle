@@ -1,4 +1,5 @@
 {% extends "mail_templated/base.tpl" %}
+{% load markup_tags %}
 
 {% block subject %}
 {{ issue }}
@@ -17,7 +18,7 @@
     {% for message in messages %}
     <b>{{ message.user.get_full_name }}</b><br/><br/>
 
-    {{ message.get_html|safe }}
+    {{ message.data_text|apply_markup:"markdown" }}
     <br/><br/>
     {% endfor %}
 {% endblock %}
