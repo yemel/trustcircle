@@ -71,7 +71,8 @@ def inbox(request):
         message.data_text = stripped_text
         message.save()
 
-        send_email('update_ok.tpl', {'message': message}, message.issue.update_inbox(), sender, thread=message_id)
+        context = {'message': message, 'issue': message.issue}
+        send_email('update_ok.tpl', context, message.issue.update_inbox(), sender, thread=message_id)
 
     return HttpResponse('Thanks')
 
@@ -95,10 +96,10 @@ def send_update(issue):
         send_email('update.tpl', {'issue': issue}, issue.update_inbox(), member.user.email)
 
 
-def send_followup(issue):
+def send_reminder(issue):
     messages = issue.message_set.filter(data_text__isnull=True)
     for message in messages:
-        send_email('followup.tpl', {'issue': issue}, issue.update_inbox(), message.user.email)
+        send_email('reminder.tpl', {'issue': issue}, issue.update_inbox(), message.user.email)
 
 
 def send_digest_check(issue):
