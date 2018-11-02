@@ -16,9 +16,7 @@
 
 {% block html %}
     {% for message in messages %}
-    <b>{{ message.user.get_full_name }}</b><br/><br/>
-
-    {{ message.data_text|apply_markup:"markdown" }}
+    <b>{{ message.user.get_full_name }}</b><br/>{{ message.data_text|apply_markup:"markdown" }}
     <br/><br/>
     {% endfor %}
 {% endblock %}

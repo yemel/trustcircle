@@ -10,5 +10,5 @@
 {% endblock %}
 
 {% block html %}
-{{ issue.digest_text|apply_markup:"markdown" }}
+{{ issue.digest_html|safe }}
 {% endblock %}

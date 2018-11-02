@@ -27,21 +27,8 @@ def inbox(request):
 
     stripped_html = request.POST.get('stripped-html')
     stripped_text = request.POST.get('stripped-text')
+    body_html = request.POST.get('body-html')
     message_id = get_message_id(request.POST.get('message-headers'))
-
-    print '========== STRIPPED-TEXT ================='
-    print ''
-    print request.POST.get('stripped-text')
-    print ''
-    print '========== STRIPPED-HTML ================='
-    print ''
-    print request.POST.get('stripped-html')
-    print ''
-    print '========== BODY-HTML ================='
-    print ''
-    print request.POST.get('body-html')
-    print ''
-
 
     issue = Issue.find(sender, recipient)
     message = Message.find(sender, recipient)
@@ -67,7 +54,7 @@ def inbox(request):
     elif message:
         # TODO: Validate State.
 
-        message.data_html = stripped_html
+        message.data_html = body_html
         message.data_text = stripped_text
         message.save()
 
