@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 
 import os
 import dj_database_url
+import django_heroku
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -147,3 +148,5 @@ ANYMAIL = {
     "MAILGUN_API_KEY": os.getenv('MAILGUN_API_KEY'),
     "MAILGUN_SENDER_DOMAIN": MAILGUN_SENDER_DOMAIN,
 }
+
+django_heroku.settings(locals(), databases=False)

@@ -69,7 +69,7 @@ def send_email(template, context, from_email, to, thread=None):
     headers = thread and {'In-Reply-To': thread} or {}
     msg = EmailMessage(template, context, from_email=from_email, to=to, headers=headers)
     msg.send()
-    print 'sending email: %s -> %s' % (from_email, to)
+    print('sending email: %s -> %s' % (from_email, to))
 
 
 def send_request(issue):
