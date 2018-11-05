@@ -18,7 +18,7 @@ class Circle(models.Model):
         super(Circle, self).save(*args, **kwargs)
         Membership.objects.get_or_create(circle=self, user=self.owner)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
 
@@ -30,7 +30,7 @@ class Membership(models.Model):
     class Meta:
         unique_together = ('user', 'circle')
 
-    def __unicode__(self):
+    def __str__(self):
         return u'%s at %s' % (self.user.email, self.circle.name)
 
 
@@ -105,7 +105,7 @@ class Issue(models.Model):
 
         return Issue.objects.create(circle=cirlce, request_date=request, digest_date=digest)
 
-    def __unicode__(self):
+    def __str__(self):
         return u'%s | %s %s' % (self.circle.name, calendar.month_name[self.digest_date.month], self.digest_date.year)
 
 
@@ -129,5 +129,5 @@ class Message(models.Model):
         m = re.match('.*<body>(.*)</body>.*', self.data_html or '')
         return m and m.group(1)
 
-    def __unicode__(self):
+    def __str__(self):
         return u'%s at %s' % (self.user.email, self.issue)
