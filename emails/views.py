@@ -9,7 +9,7 @@ from django.views.decorators.csrf import csrf_exempt
 def get_message_id(headers):
     import json
     headers = json.loads(headers)
-    header = filter(lambda x: x[0] == 'Message-Id', headers)
+    header = list(filter(lambda x: x[0] == 'Message-Id', headers))
     return header and header[0][1] or ''
 
 
