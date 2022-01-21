@@ -18,7 +18,7 @@ gnureadline==6.3.8
 gunicorn==19.9.0
 html5lib==1.0.1
 idna==2.7
-ipython==4.2.0
+ipython==7.16.3
 ipython-genutils==0.2.0
 lxml==4.2.5
 Markdown==3.0.1
